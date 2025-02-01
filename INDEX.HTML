@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffccff; /* Pink background */
+            text-align: center;
+        }
+
+        .message {
+            font-size: 30px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .options {
+            margin-top: 20px;
+        }
+
+        .button {
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: black;
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #ffb3e6;
+        }
+
+        .countdown {
+            font-size: 40px;
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+            display: none; /* Initially hidden */
+        }
+
+        .next-button {
+            font-size: 20px;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: black;
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+
+<p class="message">Excited😍😍??</p>
+<div class="options">
+    <button class="button" onclick="changeMessage('yes')">Yes</button>
+    <button class="button" onclick="changeMessage('bahut jyada')">Bahut Jyada</button>
+    <button class="button" onclick="changeMessage('nhi')">Nhi</button>
+</div>
+
+<p class="countdown" id="countdown"></p>
+<button class="next-button" id="nextButton" onclick="showNext()">Next</button>
+
+<script>
+    // Set the target date (1st March, 12:00 AM)
+    const targetDate = new Date("March 1, 2025 00:00:00").getTime();
+
+    // Countdown logic
+    let countdownInterval;
+    function startCountdown() {
+        countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            // Calculate the time left in days, hours, minutes, and seconds
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = Time left: ${days}d ${hours}h ${minutes}m ${seconds}s;
+
+            // If the countdown reaches zero, stop the interval and display "Time's up"
+            if (timeLeft < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("countdown").innerHTML = "It's time! 🎉";
+            }
+        }, 1000);
+    }
+
+    // Function to change the message based on user selection
+    function changeMessage(response) {
+        const messageElement = document.querySelector('.message');
+        const options = document.querySelector('.options');
+        const nextButton = document.getElementById("nextButton");
+
+        if (response === 'nhi') {
+            messageElement.innerHTML = "Firse Soch Lo Madamji..😂😂😂";
+            nextButton.style.display = "none"; // Hide next button initially
+        } else {
+            messageElement.innerHTML = "Mai Bhi😍😍";
+            document.getElementById("countdown").style.display = "block"; // Show countdown
+            startCountdown(); // Start countdown
+            nextButton.style.display = "none"; // Hide next button initially
+        }
+
+        // Hide the options after selection
+        options.style.display = "none";
+
+        // If "Nhi" clicked, show next button after delay
+        if (response === 'nhi') {
+            setTimeout(() => {
+                messageElement.innerHTML = "Firse Soch Lo Madamji..😂😂😂";
+                nextButton.style.display = "inline-block"; // Show next button after delay
+            }, 2000);
+        } else {
+            nextButton.style.display = "inline-block"; // Show next button after Yes or Bahut Jyada
+        }
+    }
+
+    // Function to show the next prompt after "Nhi" or Yes/Bahut Jyada
+    function showNext() {
+        const messageElement = document.querySelector('.message');
+        messageElement.innerHTML = "Excited for 1st March? Let's start the countdown! 🎉";
+    }
+</script>
+
+</body>
+</html>
